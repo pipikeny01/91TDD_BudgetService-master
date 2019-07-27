@@ -59,7 +59,7 @@ namespace UnitTestProject_BudgetService
             }
 
             return BudgetAmount(startDateTime, addMonth, currentBudget) *
-                   ((double)(MonthDays(startDateTime, addMonth) - startDateTime.Day) + 1);
+                   (MonthDays(startDateTime, addMonth) - startDateTime.Day + 1);
         }
 
         private bool IsLastMonth(DateTime startDateTime, DateTime endDateTime, int addMonth)
