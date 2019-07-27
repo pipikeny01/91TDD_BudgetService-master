@@ -59,7 +59,7 @@ namespace UnitTestProject_BudgetService
             }
 
             return BudgetAmountForDay(startDateTime, addMonth, currentBudget) *
-                   LastMonthDays(startDateTime, addMonth);
+                   MonthDays(startDateTime, addMonth);
         }
 
         private bool IsLastMonth(DateTime startDateTime, DateTime endDateTime, int addMonth)
@@ -70,17 +70,17 @@ namespace UnitTestProject_BudgetService
         private double BudgetAmountForDay(DateTime startDateTime, int addMonth, Budget budget)
         {
             return budget.Amount /
-                   MonthDays(startDateTime, addMonth);
+                   DaysInMonth(startDateTime, addMonth);
         }
 
-        private double MonthDays(DateTime startDateTime, int addMonth)
+        private double DaysInMonth(DateTime startDateTime, int addMonth)
         {
             return DateTime.DaysInMonth(startDateTime.Year, startDateTime.AddMonths(addMonth).Month);
         }
 
-        private double LastMonthDays(DateTime startDateTime, int addMonth)
+        private double MonthDays(DateTime startDateTime, int addMonth)
         {
-            return (MonthDays(startDateTime, addMonth) - startDateTime.Day + 1);
+            return (DaysInMonth(startDateTime, addMonth) - startDateTime.Day + 1);
         }
     }
 }
