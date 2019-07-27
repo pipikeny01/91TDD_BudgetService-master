@@ -22,11 +22,11 @@ namespace UnitTestProject_BudgetService
             else
             {
                 var allBudget = _budgetRepo.GetAll();
-                return DaysInMonth(startDateTime, endDateTime, allBudget);
+                return CalculateBudgetAmount(startDateTime, endDateTime, allBudget);
             }
         }
 
-        private double DaysInMonth(DateTime startDateTime, DateTime endDateTime, List<Budget> allBudget)
+        private double CalculateBudgetAmount(DateTime startDateTime, DateTime endDateTime, List<Budget> allBudget)
         {
             double total = 0;
 
