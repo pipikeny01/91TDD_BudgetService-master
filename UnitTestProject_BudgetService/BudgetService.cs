@@ -29,19 +29,12 @@ namespace UnitTestProject_BudgetService
         private double DaysInMonth(DateTime startDateTime, DateTime endDateTime, List<Budget> allBudget)
         {
             double total = 0;
+
             int month = GetTotalMonth(startDateTime, endDateTime);
 
-            if (month == 0)
+            for (var i = 0; i < month; i++)
             {
-                total += MonthBudget(startDateTime, endDateTime, allBudget, 0);
-            }
-            else
-            {
-                month++;
-                for (var i = 0; i < month; i++)
-                {
-                    total += MonthBudget(startDateTime, endDateTime, allBudget, i);
-                }
+                total += CalculateEveryMonthBudgetAmount(startDateTime, endDateTime, allBudget, i);
             }
 
             return total;
@@ -49,10 +42,10 @@ namespace UnitTestProject_BudgetService
 
         private int GetTotalMonth(DateTime startDateTime, DateTime endDateTime)
         {
-            return (endDateTime.Year - startDateTime.Year) * 12 + (endDateTime.Month - startDateTime.Month);
+            return (endDateTime.Year - startDateTime.Year) * 12 + (endDateTime.Month - startDateTime.Month) +1;
         }
 
-        private double MonthBudget(DateTime startDateTime, DateTime endDateTime, List<Budget> allBudget, int addMonth)
+        private double CalculateEveryMonthBudgetAmount(DateTime startDateTime, DateTime endDateTime, List<Budget> allBudget, int addMonth)
         {
             var currentBudget =
                 allBudget.FirstOrDefault(p => p.YearMonth == startDateTime.AddMonths(addMonth).ToString("yyyyMM"));
@@ -74,15 +67,15 @@ namespace UnitTestProject_BudgetService
             return startDateTime.AddMonths(addMonth).Month == endDateTime.Month;
         }
 
-        private double BudgetAmount(DateTime startDateTime, int i, Budget budget)
+        private double BudgetAmount(DateTime startDateTime, int addMonth, Budget budget)
         {
             return budget.Amount /
-                   MonthDays(startDateTime, i);
+                   MonthDays(startDateTime, addMonth);
         }
 
-        private double MonthDays(DateTime startDateTime, int i)
+        private double MonthDays(DateTime startDateTime, int addMonth)
         {
-            return (double)(DateTime.DaysInMonth(startDateTime.Year, startDateTime.AddMonths(i).Month));
+            return (double)(DateTime.DaysInMonth(startDateTime.Year, startDateTime.AddMonths(addMonth).Month));
         }
     }
 }
