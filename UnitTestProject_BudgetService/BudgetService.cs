@@ -34,7 +34,10 @@ namespace UnitTestProject_BudgetService
 
             for (var i = 0; i < month; i++)
             {
-                total += CalculateEveryMonthBudgetAmount(startDateTime, endDateTime, allBudget, i);
+                var currentBudget =
+                    allBudget.FirstOrDefault(p => p.YearMonth == startDateTime.AddMonths(i).ToString("yyyyMM"));
+
+                total += CalculateEveryMonthBudgetAmount(startDateTime, endDateTime, currentBudget, i);
             }
 
             return total;
@@ -42,14 +45,11 @@ namespace UnitTestProject_BudgetService
 
         private int GetTotalMonth(DateTime startDateTime, DateTime endDateTime)
         {
-            return (endDateTime.Year - startDateTime.Year) * 12 + (endDateTime.Month - startDateTime.Month) +1;
+            return (endDateTime.Year - startDateTime.Year) * 12 + (endDateTime.Month - startDateTime.Month) + 1;
         }
 
-        private double CalculateEveryMonthBudgetAmount(DateTime startDateTime, DateTime endDateTime, List<Budget> allBudget, int addMonth)
+        private double CalculateEveryMonthBudgetAmount(DateTime startDateTime, DateTime endDateTime, Budget currentBudget, int addMonth)
         {
-            var currentBudget =
-                allBudget.FirstOrDefault(p => p.YearMonth == startDateTime.AddMonths(addMonth).ToString("yyyyMM"));
-
             if (currentBudget == null || currentBudget.Amount == 0)
                 return 0;
 
