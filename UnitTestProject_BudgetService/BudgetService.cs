@@ -22,11 +22,11 @@ namespace UnitTestProject_BudgetService
             else
             {
                 var allBudget = _budgetRepo.GetAll();
-                return CalculateBudgetAmount(startDateTime, endDateTime, allBudget);
+                return CalculateBudgetAmountTotal(startDateTime, endDateTime, allBudget);
             }
         }
 
-        private double CalculateBudgetAmount(DateTime startDateTime, DateTime endDateTime, List<Budget> allBudget)
+        private double CalculateBudgetAmountTotal(DateTime startDateTime, DateTime endDateTime, List<Budget> allBudget)
         {
             double total = 0;
 
@@ -37,7 +37,7 @@ namespace UnitTestProject_BudgetService
                 var currentBudget =
                     allBudget.FirstOrDefault(p => p.YearMonth == startDateTime.AddMonths(i).ToString("yyyyMM"));
 
-                total += CalculateEveryMonthBudgetAmount(startDateTime, endDateTime, currentBudget, i);
+                total += CalculateBudgetAmountMonth(startDateTime, endDateTime, currentBudget, i);
             }
 
             return total;
@@ -48,7 +48,7 @@ namespace UnitTestProject_BudgetService
             return (endDateTime.Year - startDateTime.Year) * 12 + (endDateTime.Month - startDateTime.Month) + 1;
         }
 
-        private double CalculateEveryMonthBudgetAmount(DateTime startDateTime, DateTime endDateTime, Budget currentBudget, int addMonth)
+        private double CalculateBudgetAmountMonth(DateTime startDateTime, DateTime endDateTime, Budget currentBudget, int addMonth)
         {
             if (currentBudget == null || currentBudget.Amount == 0)
                 return 0;
